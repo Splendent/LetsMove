@@ -19,6 +19,9 @@ extern "C" {
  
  Call from \c NSApplication's delegate method \c -applicationWillFinishLaunching: method. */
 void PFMoveToApplicationsFolderIfNecessary(void);
+/**
+ Add `ignoreDefaults` var to force trigger alert, by SP */
+void PFMoveToApplicationsFolderIfNecessaryIgnoreDefaults(BOOL ignoreDefaults);
 
 /**
  Check whether an app move is currently in progress.
