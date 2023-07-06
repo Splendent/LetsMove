@@ -20,8 +20,12 @@ extern "C" {
  Call from \c NSApplication's delegate method \c -applicationWillFinishLaunching: method. */
 void PFMoveToApplicationsFolderIfNecessary(void);
 /**
- Add `ignoreDefaults` var to force trigger alert, by SP */
-void PFMoveToApplicationsFolderIfNecessaryIgnoreDefaults(BOOL ignoreDefaults);
+ Add `ignoreDefaults` var to force trigger alert,
+ Add `PFMoveToApplicationFolderAlertCompletionBlock` var to add handling after alert dismissed, due to move app would lead app incorrectly quit, which won't invoke `appWillTerminate` delegate
+ by SP
+ */
+typedef void (^PFMoveToApplicationFolderAlertCompletionBlock)(NSModalResponse);
+void PFMoveToApplicationsFolderIfNecessaryIgnoreDefaults(BOOL ignoreDefaults, PFMoveToApplicationFolderAlertCompletionBlock completion);
 
 /**
  Check whether an app move is currently in progress.

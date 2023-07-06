@@ -64,9 +64,10 @@ static void Relaunch(NSString *destinationPath);
 
 // Main worker function
 void PFMoveToApplicationsFolderIfNecessary(void) {
-    PFMoveToApplicationsFolderIfNecessaryIgnoreDefaults(NO);
+    PFMoveToApplicationsFolderIfNecessaryIgnoreDefaults(NO, nil);
 }
-void PFMoveToApplicationsFolderIfNecessaryIgnoreDefaults(BOOL ignoreDefaults) {
+
+void PFMoveToApplicationsFolderIfNecessaryIgnoreDefaults(BOOL ignoreDefaults, PFMoveToApplicationFolderAlertCompletionBlock completion) {
 
 	// Make sure to do our work on the main thread.
 	// Apparently Electron apps need this for things to work properly.
@@ -155,7 +156,12 @@ void PFMoveToApplicationsFolderIfNecessaryIgnoreDefaults(BOOL ignoreDefaults) {
 		[NSApp activateIgnoringOtherApps:YES];
 	}
 
-	if ([alert runModal] == NSAlertFirstButtonReturn) {
+    NSModalResponse response = [alert runModal];
+    if (completion != nil) {
+        NSLog(@"INFO -- Triggering modal alert completion block");
+        completion(response);
+    }
+	if (response == NSAlertFirstButtonReturn) {
 		NSLog(@"INFO -- Moving myself to the Applications folder");
 
 		// Move
